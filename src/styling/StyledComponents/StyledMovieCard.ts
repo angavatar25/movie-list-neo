@@ -14,6 +14,17 @@ export const MovieTitle = styled.p<{ fontSize?: number }>`
   padding: 15px 0;
 `
 
+export const MoviePoster = styled.div`
+  width: 100%;
+  height: 400px;
+`
+
+export const MovieImage = styled.img`
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+`
+
 export const MovieLikeButton = styled.button<{ movieLiked: boolean }>`
   background-color: ${(props) => props.movieLiked ? '#FC0040' : 'transparent'};
   border: ${(props) => props.movieLiked ? 'none' : '1px solid #fff'};;

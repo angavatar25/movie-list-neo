@@ -1,12 +1,18 @@
 'use client'
-import Header from "@/Components/Header";
-import { Circle, FlexCenter, FlexColumn, ImageContainer, PageContainer } from "@/styling/StyledComponents/StyledGeneral";
-import { BackToListButton, CastContainer, CastTitle, DetailContainer } from "@/styling/StyledPages/StyledDetailPage";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 
-const ListPage = () => {
+import { Circle, FlexCenter, FlexColumn, ImageContainer, PageContainer } from "@/styling/StyledComponents/StyledGeneral";
+import { BackToListButton, CastContainer, CastTitle, DetailContainer } from "@/styling/StyledPages/StyledDetailPage";
+
+import Header from "@/Components/Header";
+
+const ListPage = ({ params }: { params: { id: number }}) => {
   const router = useRouter();
+
+  if (params.id) {
+    console.log(params.id)
+  }
 
   const redirectToListPage = () => {
     router.push('/');
