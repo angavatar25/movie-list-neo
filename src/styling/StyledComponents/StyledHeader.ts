@@ -23,4 +23,24 @@ export const MenuContainer = styled.div`
   display: flex;
   gap: 10px;
   margin: auto 0;
+  @media screen and (max-width: 1200px) {
+    display: none;
+  }
+`
+
+export const HamburgerContainer = styled.div`
+  margin: auto 0;
+  cursor: pointer;
+  @media screen and (min-width: 1199px) {
+    display: none;
+  }
+`
+
+export const MenuContainerMobile = styled.div`
+  display: grid;
+  gap: 20px;
+  padding: 20px 0;
+  @media screen and (min-width: 1199px) {
+    display: none;
+  }
 `

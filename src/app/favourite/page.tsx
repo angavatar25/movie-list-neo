@@ -15,7 +15,7 @@ interface IFavouriteMovie {
 const FavouritePage = () => {
   const isFavouriteStorageAvailable = localStorage.getItem('movieFavourite') || '[]';
   const favouriteParsed = JSON.parse(isFavouriteStorageAvailable);
-  const isFavouriteMovieAvailable = isFavouriteStorageAvailable || favouriteParsed.length > 0;
+  const isFavouriteMovieAvailable = favouriteParsed.length > 0;
 
   const handleDeleteFavourite = (movieId: number) => {
     const favouriteMovieId = favouriteParsed.findIndex((favourite: IFavouriteMovie) => favourite.id === movieId);
@@ -32,7 +32,7 @@ const FavouritePage = () => {
         {isFavouriteMovieAvailable ? (
         <Row>
           {favouriteParsed && favouriteParsed.map((favourite: any) => (
-            <Col span={6}>
+            <Col span={6} sm={2} md={4}>
               <MovieCard
                 key={`index-img-${favourite.id}`}
                 onClick={() => console.log('hehehe')}

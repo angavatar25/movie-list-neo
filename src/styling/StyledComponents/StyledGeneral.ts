@@ -2,9 +2,14 @@
 import styled from "styled-components";
 
 export const PageContainer = styled.div`
-  width: 1200px;
+  max-width: 1200px;
+  width: 100%;
   margin: auto;
   padding-top: 120px;
+  @media screen and (max-width: 1200px) {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
 `
 
 export const FlexCenter = styled.div<{gap?: number}>`

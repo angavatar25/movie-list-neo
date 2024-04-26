@@ -88,9 +88,9 @@ const Home = () => {
       <Header/>
       <PageContainer>
         <h1 style={{paddingBottom: '30px'}}>Movie List</h1>
-        <Row>
+        <Row gutter={[16, 16]}>
           {data.map((movie) => (
-            <Col span={6}>
+            <Col xs={12} sm={12} md={8} lg={6} xl={6}>
               <MovieCard
                 key={`index-img-${movie.id}`}
                 onClick={() => redirectToDetailPage(movie.id)}
@@ -101,9 +101,6 @@ const Home = () => {
               />
             </Col>
           ))}
-          {/* <Col span={6}><MovieCard/></Col>
-          <Col span={6}><MovieCard/></Col>
-          <Col span={6}><MovieCard/></Col> */}
         </Row>
         {/* <MovieCard/> */}
       </PageContainer>
