@@ -3,7 +3,7 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 
 import { Circle, FlexCenter, FlexColumn, ImageContainer, PageContainer } from "@/styling/StyledComponents/StyledGeneral";
-import { BackToListButton, CastContainer, CastTitle, DetailContainer } from "@/styling/StyledPages/StyledDetailPage";
+import { BackToListButton, CastContainer, CastTitle, DetailContainer, MovieDetailContainer } from "@/styling/StyledPages/StyledDetailPage";
 
 import Header from "@/Components/Header";
 
@@ -28,7 +28,7 @@ const ListPage = ({ params }: { params: { id: number }}) => {
           <ArrowLeftOutlined />
           <p>List</p>
         </BackToListButton>
-        <FlexCenter gap={50}>
+        <MovieDetailContainer gap={50}>
           <ImageContainer
             src="https://images.pexels.com/photos/9697600/pexels-photo-9697600.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
             imageWidth={250}
@@ -45,7 +45,7 @@ const ListPage = ({ params }: { params: { id: number }}) => {
               <p>Horror</p>
             </DetailContainer>
           </FlexColumn>
-        </FlexCenter>
+        </MovieDetailContainer>
         <CastContainer>
           <CastTitle margin={20}>Cast</CastTitle>
           <div>
