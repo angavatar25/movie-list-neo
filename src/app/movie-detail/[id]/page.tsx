@@ -2,13 +2,14 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 
-import { Circle, FlexCenter, FlexColumn, ImageContainer, PageContainer } from "@/styling/StyledComponents/StyledGeneral";
+import { Circle, FlexColumn, ImageContainer, PageContainer } from "@/styling/StyledComponents/StyledGeneral";
 import { BackToListButton, CastContainer, CastTitle, DetailContainer, MovieDetailContainer, StarContainer } from "@/styling/StyledPages/StyledDetailPage";
 
 import Header from "@/Components/Header";
 import { useEffect, useState } from "react";
 import { NoticeType } from "antd/es/message/interface";
 import { message } from "antd";
+import LargeImage from "@/Components/LargeImage";
 
 interface IMovieDetail {
   id: number,
@@ -26,6 +27,7 @@ interface IMovieDetail {
 
 const ListPage = ({ params }: { params: { id: number }}) => {
   const [movieDetail, setMovieDetail] = useState<IMovieDetail | null>(null);
+  const [showLargeImage, setShowLargeImage] = useState(false);
 
   const router = useRouter();
 
@@ -56,8 +58,22 @@ const ListPage = ({ params }: { params: { id: number }}) => {
     fetchMovieDetail();
   }, [])
 
-  const redirectToListPage = () => {
-    router.push('/');
+  const redirectToListPage = async () => {
+    try {
+      const res = await fetch('/api/redirect', { method: 'POST' });
+
+      if (res.ok) {
+        console.log('redirect success');
+      } else {
+        console.log('redirect failed', res.statusText);
+      }
+    } catch (err) {
+      
+    }
+  }
+
+  const handleShowLargeImage = () => {
+    setShowLargeImage(!showLargeImage)
   }
 
   if (!movieDetail) return (
@@ -70,6 +86,11 @@ const ListPage = ({ params }: { params: { id: number }}) => {
     <>
       {contextHolder}
       <Header/>
+      <LargeImage
+        show={showLargeImage}
+        imgUrl={movieDetail.imageLargeUrl}
+        onClose={handleShowLargeImage}
+      />
       <PageContainer>
         <BackToListButton
           gap={10}
@@ -83,6 +104,7 @@ const ListPage = ({ params }: { params: { id: number }}) => {
             src={movieDetail.imageLargeUrl}
             width={250}
             radius={10}
+            onClick={handleShowLargeImage}
           />
           <FlexColumn gap={20}>
             <h1>{movieDetail.title}</h1>
