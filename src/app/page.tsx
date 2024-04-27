@@ -5,44 +5,7 @@ import MovieCard from "@/Components/MovieCard";
 import Header from "@/Components/Header";
 import { Col, Row } from "antd";
 import { useRouter } from "next/navigation";
-
-const data = [
-  {
-    "id": 1,
-    "title": "Movie 1",
-    "year": 2010,
-    "rating": 3,
-    "imageUrl": "https://images.pexels.com/photos/9697600/pexels-photo-9697600.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=200"
-  },
-  {
-    "id": 2,
-    "title": "Movie 2",
-    "year": 2007,
-    "rating": 5,
-    "imageUrl": "https://images.pexels.com/photos/8175462/pexels-photo-8175462.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=200"
-  },
-  {
-    "id": 3,
-    "title": "Movie 3",
-    "year": 2020,
-    "rating": 1,
-    "imageUrl": "https://images.pexels.com/photos/9697600/pexels-photo-9697600.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=200"
-  },
-  {
-    "id": 4,
-    "title": "Movie 4",
-    "year": 2012,
-    "rating": 4,
-    "imageUrl": "https://images.pexels.com/photos/9731891/pexels-photo-9731891.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=200"
-  },
-  {
-    "id": 5,
-    "title": "Movie 5",
-    "year": 2007,
-    "rating": 5,
-    "imageUrl": "https://images.pexels.com/photos/3029520/pexels-photo-3029520.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=200"
-  },
-];
+import { useEffect, useState } from "react";
 
 interface IMovieFavouriteData {
   id: number;
@@ -50,15 +13,40 @@ interface IMovieFavouriteData {
   imageUrl: string;
 }
 
+interface IMovieData {
+  id: number;
+  title: string;
+  imageUrl: string;
+  rating: number;
+}
+
 const Home = () => {
+  const [movieData, setMovieData] = useState([]);
+
   const router = useRouter();
+
   const isFavouriteAvailable = localStorage.getItem('movieFavourite') || '[]';
   const favouriteParsed = JSON.parse(isFavouriteAvailable);
 
 
-  const redirectToDetailPage = (id: number) => {
+
+  const redirectToDetailPage = async (id: number) => {
     router.push(`/movie-detail/${id}`);
   };
+
+  useEffect(() => {
+    const fetchMovieList = async () => {
+      try {
+        const res = await fetch('/api/movie-list', {method: 'GET', cache: 'no-store'})
+        const postData = await res.json();
+        setMovieData(postData);
+      } catch(err) {
+
+      }
+    }
+
+    fetchMovieList();
+  }, []);
 
   const handleAddToFavourite = (movie: IMovieFavouriteData) => {
     const movieData = {
@@ -89,10 +77,12 @@ const Home = () => {
       <PageContainer>
         <h1 style={{paddingBottom: '30px'}}>Movie List</h1>
         <Row gutter={[16, 16]}>
-          {data.map((movie) => (
-            <Col xs={12} sm={12} md={8} lg={6} xl={6}>
+          {movieData.length > 0 && movieData.map((movie: IMovieData) => (
+            <Col
+              key={`index-img-${movie.id}`}
+              xs={12} sm={12} md={8} lg={6} xl={6}
+            >
               <MovieCard
-                key={`index-img-${movie.id}`}
                 onClick={() => redirectToDetailPage(movie.id)}
                 addToFavourite={() => handleAddToFavourite(movie)}
                 id={movie.id}

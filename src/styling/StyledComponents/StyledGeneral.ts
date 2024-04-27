@@ -25,10 +25,10 @@ export const FlexColumn = styled.div<{gap?: number}>`
   gap: ${(props) => props.gap ? `${props.gap}px` : '0'};
 `
 
-export const ImageContainer = styled.img<{cornerRadius?: number, imageWidth: number}>`
-  max-width: ${(props) => props.imageWidth ? `${props.imageWidth}px` : '0'};
+export const ImageContainer = styled.img<{radius?: number, width: number}>`
+  max-width: ${(props) => props.width ? `${props.width}px` : '0'};
   width: 100%;
-  border-radius: ${(props) => props.cornerRadius ? `${props.cornerRadius}px` : '0'};
+  border-radius: ${(props) => props.radius ? `${props.radius}px` : '0'};
 `
 
 export const Circle = styled.div<{width: number}>`

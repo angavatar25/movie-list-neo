@@ -3,20 +3,50 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 
 import { Circle, FlexCenter, FlexColumn, ImageContainer, PageContainer } from "@/styling/StyledComponents/StyledGeneral";
-import { BackToListButton, CastContainer, CastTitle, DetailContainer, MovieDetailContainer } from "@/styling/StyledPages/StyledDetailPage";
+import { BackToListButton, CastContainer, CastTitle, DetailContainer, MovieDetailContainer, StarContainer } from "@/styling/StyledPages/StyledDetailPage";
 
 import Header from "@/Components/Header";
+import { useEffect, useState } from "react";
+
+interface IMovieDetail {
+  id: number,
+  title: string,
+  year: number,
+  rating: number,
+  imageUrl: string,
+  imageLargeUrl: string,
+  starring: Array<string>,
+  desc: string,
+  releaseDate: string,
+  duration: string,
+  genre: string,
+}
 
 const ListPage = ({ params }: { params: { id: number }}) => {
+  const [movieDetail, setMovieDetail] = useState<IMovieDetail | null>(null);
   const router = useRouter();
 
-  if (params.id) {
-    console.log(params.id)
-  }
+  useEffect(() => {
+    const fetchMovieDetail = async () => {
+      try {
+        const res = await fetch(`/api/movie-detail?id=${params.id}`, {method: 'GET', cache: 'no-store'})
+        const postData = await res.json();
+        if (postData) {
+          setMovieDetail(postData);
+        }
+      } catch(err) {
+
+      }
+    }
+
+    fetchMovieDetail();
+  }, [])
 
   const redirectToListPage = () => {
     router.push('/');
   }
+
+  if (!movieDetail) return <p>Loading...</p>
   return (
     <>
       <Header/>
@@ -30,29 +60,33 @@ const ListPage = ({ params }: { params: { id: number }}) => {
         </BackToListButton>
         <MovieDetailContainer gap={50}>
           <ImageContainer
-            src="https://images.pexels.com/photos/9697600/pexels-photo-9697600.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-            imageWidth={250}
-            cornerRadius={10}
+            src={movieDetail.imageUrl}
+            width={250}
+            radius={10}
           />
           <FlexColumn gap={20}>
-            <h1>Movie Title</h1>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque cupiditate quas at minus magnam perspiciatis corrupti eligendi delectus voluptas, in molestiae eius vel magni nemo accusantium culpa blanditiis praesentium quam!</p>
+            <h1>{movieDetail.title}</h1>
+            <p>{movieDetail.desc}</p>
             <DetailContainer>
-              <p>12-11-2010</p>
+              <p>{movieDetail.releaseDate}</p>
               <Circle width={5}/>
-              <p>90 Minutes</p>
+              <p>{movieDetail.duration} Minutes</p>
               <Circle width={5}/>
-              <p>Horror</p>
+              <p>{movieDetail.genre}</p>
             </DetailContainer>
           </FlexColumn>
         </MovieDetailContainer>
         <CastContainer>
           <CastTitle margin={20}>Cast</CastTitle>
           <div>
-            <FlexCenter gap={10}>
-              <Circle width={20}/>
-              <p>Cast name</p>
-            </FlexCenter>
+            {movieDetail.starring ? (
+              movieDetail.starring.map((star: string) => (
+                <StarContainer gap={15}>
+                  <Circle width={20}/>
+                  <p>{star}</p>
+                </StarContainer>
+              ))
+            ) : null}
           </div>
         </CastContainer>
       </PageContainer>
