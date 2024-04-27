@@ -35,3 +35,11 @@ export const BackToListButton = styled.button<{gap: number}>`
   border: none;
   font-size: 20px;
 `
+
+export const StarContainer = styled.div<{gap: number}>`
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  gap: ${(props) => props.gap ? `${props.gap}px` : '0'};
+  margin-bottom: 10px;
+`
