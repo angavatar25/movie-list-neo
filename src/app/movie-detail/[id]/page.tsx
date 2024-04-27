@@ -7,6 +7,8 @@ import { BackToListButton, CastContainer, CastTitle, DetailContainer, MovieDetai
 
 import Header from "@/Components/Header";
 import { useEffect, useState } from "react";
+import { NoticeType } from "antd/es/message/interface";
+import { message } from "antd";
 
 interface IMovieDetail {
   id: number,
@@ -24,7 +26,17 @@ interface IMovieDetail {
 
 const ListPage = ({ params }: { params: { id: number }}) => {
   const [movieDetail, setMovieDetail] = useState<IMovieDetail | null>(null);
+
   const router = useRouter();
+
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const showModal = ({ type, content }: { type: NoticeType, content: string }) => {
+    messageApi.open({
+      type,
+      content,
+    })
+  }
 
   useEffect(() => {
     const fetchMovieDetail = async () => {
@@ -35,7 +47,9 @@ const ListPage = ({ params }: { params: { id: number }}) => {
           setMovieDetail(postData);
         }
       } catch(err) {
-
+        if (err) {
+          showModal({ type: 'error', content: 'Error while loading movie list, please try again'});
+        }
       }
     }
 
@@ -46,9 +60,15 @@ const ListPage = ({ params }: { params: { id: number }}) => {
     router.push('/');
   }
 
-  if (!movieDetail) return <p>Loading...</p>
+  if (!movieDetail) return (
+    <>
+      {contextHolder}
+      <p>Loading...</p>
+    </>
+  )
   return (
     <>
+      {contextHolder}
       <Header/>
       <PageContainer>
         <BackToListButton

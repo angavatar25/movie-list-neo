@@ -33,6 +33,13 @@ const Home = () => {
   const isFavouriteAvailable = localStorage.getItem('movieFavourite') || '[]';
   const favouriteParsed = JSON.parse(isFavouriteAvailable);
 
+  const showModal = ({ type, content }: { type: NoticeType, content: string }) => {
+    messageApi.open({
+      type,
+      content,
+    })
+  }
+
   const redirectToDetailPage = async (id: number) => {
     router.push(`/movie-detail/${id}`);
   };
@@ -44,19 +51,14 @@ const Home = () => {
         const postData = await res.json();
         setMovieData(postData);
       } catch(err) {
-
+        if (err) {
+          showModal({ type: 'error', content: 'Error while loading movie list, please try again'});
+        }
       }
     }
 
     fetchMovieList();
   }, []);
-
-  const showSuccessModal = ({ type, content }: { type: NoticeType, content: string }) => {
-    messageApi.open({
-      type,
-      content,
-    })
-  }
 
   const handleAddToFavourite = (movie: IMovieFavouriteData) => {
     const movieData = {
@@ -74,13 +76,13 @@ const Home = () => {
       const data = [];
       data.push(movieData);
       localStorage.setItem('movieFavourite', JSON.stringify(data));
-      showSuccessModal({ type: 'success', content: 'Added to favourite' });
+      showModal({ type: 'success', content: 'Added to favourite' });
       return;
     };
 
     favouriteParsed.push(movieData);
     localStorage.setItem('movieFavourite', JSON.stringify(favouriteParsed));
-    showSuccessModal({ type: 'success', content: 'Added to favourite' });
+    showModal({ type: 'success', content: 'Added to favourite' });
   }
 
   return (
