@@ -1,11 +1,12 @@
 'use client'
 import { MovieCardContainer, MovieImage, MovieLikeButton, MoviePoster, MovieTitle } from "@/styling/StyledComponents/StyledMovieCard";
-import { HeartFilled, HeartOutlined } from "@ant-design/icons";
+import { DeleteOutlined, HeartOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 
 interface IMovieCard {
   onClick: (id: number) => void;
-  addToFavourite(): void;
+  addToFavourite?(): void;
+  removeFavourite?(): void;
   id: number;
   name: string;
   image: string;
@@ -34,16 +35,15 @@ const MovieCard = (props: IMovieCard) => {
         <MovieTitle fontSize={12}>
           {props.name}
         </MovieTitle>
-        {/* {props.isFavourite ?
-        (<HeartFilled
+        {props.isFavourite ?
+        (<DeleteOutlined
           style={{ color: '#FC0040' }}
-          onClick={props.addToFavourite}
+          onClick={props.removeFavourite}
         />
-        ) : <HeartOutlined />} */}
-        <HeartOutlined
-          style={{ color: props.isFavourite ? '#FC0040' : '#FFF'}}
-          onClick={props.addToFavourite}
-        />
+        ) : 
+          <HeartOutlined
+            onClick={props.addToFavourite}
+          />}
       </MovieCardContainer>
     </>
   )

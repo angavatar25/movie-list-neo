@@ -1,11 +1,14 @@
 'use client'
 
-import { PageContainer } from "@/styling/StyledComponents/StyledGeneral";
 import MovieCard from "@/Components/MovieCard";
 import Header from "@/Components/Header";
-import { Col, Row } from "antd";
+
+import { PageContainer } from "@/styling/StyledComponents/StyledGeneral";
+
+import { Col, Row, message } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { NoticeType } from "antd/es/message/interface";
 
 interface IMovieFavouriteData {
   id: number;
@@ -23,12 +26,12 @@ interface IMovieData {
 const Home = () => {
   const [movieData, setMovieData] = useState([]);
 
+  const [messageApi, contextHolder] = message.useMessage();
+
   const router = useRouter();
 
   const isFavouriteAvailable = localStorage.getItem('movieFavourite') || '[]';
   const favouriteParsed = JSON.parse(isFavouriteAvailable);
-
-
 
   const redirectToDetailPage = async (id: number) => {
     router.push(`/movie-detail/${id}`);
@@ -48,6 +51,13 @@ const Home = () => {
     fetchMovieList();
   }, []);
 
+  const showSuccessModal = ({ type, content }: { type: NoticeType, content: string }) => {
+    messageApi.open({
+      type,
+      content,
+    })
+  }
+
   const handleAddToFavourite = (movie: IMovieFavouriteData) => {
     const movieData = {
       id: movie.id,
@@ -64,15 +74,18 @@ const Home = () => {
       const data = [];
       data.push(movieData);
       localStorage.setItem('movieFavourite', JSON.stringify(data));
+      showSuccessModal({ type: 'success', content: 'Added to favourite' });
       return;
     };
 
     favouriteParsed.push(movieData);
     localStorage.setItem('movieFavourite', JSON.stringify(favouriteParsed));
+    showSuccessModal({ type: 'success', content: 'Added to favourite' });
   }
 
   return (
     <>
+      {contextHolder}
       <Header/>
       <PageContainer>
         <h1 style={{paddingBottom: '30px'}}>Movie List</h1>
