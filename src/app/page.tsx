@@ -70,7 +70,10 @@ const Home = () => {
 
     const findFavouriteMovie = favouriteParsed.find((index: IMovieFavouriteData) => index.title.includes(movie.title));
 
-    if (findFavouriteMovie) return;
+    if (findFavouriteMovie) {
+      showModal({ type: 'error', content: 'Movie already exist' });
+      return;
+    };
 
     if (!isFavouriteAvailable || favouriteParsed.length === 0) {
       const data = [];
