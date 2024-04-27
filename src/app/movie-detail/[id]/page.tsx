@@ -60,7 +60,7 @@ const ListPage = ({ params }: { params: { id: number }}) => {
         </BackToListButton>
         <MovieDetailContainer gap={50}>
           <ImageContainer
-            src={movieDetail.imageUrl}
+            src={movieDetail.imageLargeUrl}
             width={250}
             radius={10}
           />

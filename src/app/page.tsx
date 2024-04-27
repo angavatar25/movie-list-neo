@@ -79,10 +79,11 @@ const Home = () => {
         <Row gutter={[16, 16]}>
           {movieData.length > 0 && movieData.map((movie: IMovieData) => (
             <Col
-              key={`index-img-${movie.id}`}
+              key={`col-${movie.id}`}
               xs={12} sm={12} md={8} lg={6} xl={6}
             >
               <MovieCard
+                key={`index-img-${movie.id}`}
                 onClick={() => redirectToDetailPage(movie.id)}
                 addToFavourite={() => handleAddToFavourite(movie)}
                 id={movie.id}

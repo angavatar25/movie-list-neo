@@ -32,7 +32,10 @@ const FavouritePage = () => {
         {isFavouriteMovieAvailable ? (
         <Row>
           {favouriteParsed && favouriteParsed.map((favourite: any) => (
-            <Col xs={12} sm={12} md={8} lg={6} xl={6}>
+            <Col
+              key={`col-${favourite.id}`}
+              xs={12} sm={12} md={8} lg={6} xl={6}
+            >
               <MovieCard
                 key={`index-img-${favourite.id}`}
                 onClick={() => console.log('hehehe')}
