@@ -59,17 +59,7 @@ const ListPage = ({ params }: { params: { id: number }}) => {
   }, [])
 
   const redirectToListPage = async () => {
-    try {
-      const res = await fetch('/api/redirect', { method: 'POST' });
-
-      if (res.ok) {
-        console.log('redirect success');
-      } else {
-        console.log('redirect failed', res.statusText);
-      }
-    } catch (err) {
-      
-    }
+    router.push('/')
   }
 
   const handleShowLargeImage = () => {
