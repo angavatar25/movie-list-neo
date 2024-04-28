@@ -3,7 +3,7 @@ const config = {
     {
       name: "neobank-movie-app",
       script: "npm",
-      args: "start",
+      args: "run start",
       cwd: "/Users/engavatar25/Documents/NextJS/neobank-movie-app",
       instances: 1,
       autorestart: true,
@@ -15,3 +15,5 @@ const config = {
     },
   ],
 }
+
+export default config;
