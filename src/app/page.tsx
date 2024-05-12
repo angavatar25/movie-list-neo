@@ -11,6 +11,7 @@ const Home = () => {
 
   const redirectToDetailPage = () => {
     router.push('/movie-list');
+    console.log('hehehe');
   }
   return (
     <>
